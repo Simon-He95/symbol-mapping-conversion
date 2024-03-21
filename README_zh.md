@@ -21,7 +21,7 @@
 
 - 可以配置 `extLanguage` 去排除不希望在这些类型的文件中处理，比如 ['vue'] 等
 
-- 自定义配置 `symbol-mapping-conversion.mappings`, 可以在 `settings` 去追加一些规则，比如你遇到 `¥` 想映射成 `💰`
+- 自定义配置 `symbol-mapping-conversion.mappings`, 可以在 `settings` 去追加一些规则，比如你遇到 `¥`: `💰`，`爱心`:`💗`，`人民币`: `💴`，`美金`:`💵`
 
 ## :coffee:
 

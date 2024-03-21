@@ -21,7 +21,7 @@ The plug-in for symbol mapping conversion can customize the configuration conver
 
 - You can configure `extLanguage` to exclude unwanted processing in these types of files, such as ['vue'], etc.
 
-- Custom configuration `symbol-mapping-conversion.mappings`, you can add some rules in `settings`, for example, you encounter `¥` and want to map to `💰`
+- Custom configuration `symbol-mapping-conversion.mappings`, you can add some rules in `settings`, for example, you encounter `¥`: `💰`, `love`:`💗`, `RMB`: `💴`, `US$`:`💵`
 
 ## :coffee:
 

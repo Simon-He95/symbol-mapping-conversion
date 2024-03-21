@@ -1,4 +1,4 @@
-import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getPosition, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
+import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getLineText, getPosition, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
 import type { Disposable, ExtensionContext } from 'vscode'
 
 export async function activate(context: ExtensionContext) {
@@ -26,6 +26,9 @@ export async function activate(context: ExtensionContext) {
   }))
 
   disposes.push(addEventListener('text-change', (e) => {
+    if (e.reason === 1) // 撤销时不再干预
+      return
+
     if (!isEnable)
       return
 
@@ -45,12 +48,22 @@ export async function activate(context: ExtensionContext) {
     const updateLists: any = []
     changes.forEach((c: any) => {
       let text = c.text
+      let offset = 0
       Object.keys(mappings).forEach((k) => {
         const v = mappings[k]
+        if (text.length < k.length && k.endsWith(text)) {
+          // 支持少于匹配项，往前贪婪获取字符串
+          offset = k.length - text.length
+          const lineText = getLineText(c.range.start.line)!
+          const start = c.range.start.character - offset
+          if (start < 0)
+            return
+          text = lineText.slice(start, c.range.start.character + text.length)
+        }
         text = text.replaceAll(k, v)
       })
       if (text !== c.text) {
-        const start = getPosition(c.rangeOffset)
+        const start = getPosition(c.rangeOffset - offset)
         const end = getPosition(c.rangeOffset + c.text.length)
         const range = createRange(start, end)
         updateLists.push({
