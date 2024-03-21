@@ -33,6 +33,43 @@
   "activationEvents": [
     "onStartupFinished"
   ],
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "symbol-mapping-conversion",
+      "properties": {
+        "symbol-mapping-conversion.mappings": {
+          "type": "object",
+          "default": {
+            "【": "[",
+            "】": "]",
+            "（": "(",
+            "）": ")",
+            "《": "<",
+            "》": ">",
+            "「": "{",
+            "」": "}",
+            "¥": "$",
+            "……": "^",
+            "。": ".",
+            "，": ",",
+            "\\": "、",
+            "：": ":",
+            "；": ";",
+            "？": "?",
+            "！": "!",
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "～": "~",
+            "·": "`"
+          },
+          "description": "%symbol-mapping-conversion.mappings%"
+        }
+      }
+    }
+  },
   "scripts": {
     "dev": "pnpm build --watch",
     "test": "vitest",
