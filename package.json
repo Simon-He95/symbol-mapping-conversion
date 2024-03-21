@@ -1,0 +1,63 @@
+{
+  "publisher": "simonhe",
+  "name": "symbol-mapping-conversion",
+  "displayName": "symbol-mapping-conversion",
+  "version": "0.0.0",
+  "packageManager": "pnpm@8.10.5",
+  "description": "symbol-mapping-conversion",
+  "author": "Simon He <https://github.com/Simon-He95>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/Simon-He95",
+  "homepage": "https://github.com/Simon-He95/symbol-mapping-conversion#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Simon-He95/symbol-mapping-conversion"
+  },
+  "bugs": {
+    "url": "https://github.com/Simon-He95/symbol-mapping-conversion/issues"
+  },
+  "sponsor": {
+    "url": "https://github.com/Simon-He95/sponsor"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/index.js",
+  "icon": "icon.png",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "vscode": "^1.84.2"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "scripts": {
+    "dev": "pnpm build --watch",
+    "test": "vitest",
+    "build": "tsup src/index.ts --external vscode",
+    "pack": "vsce package --no-dependencies",
+    "lint": "eslint . --cache",
+    "lint:fix": "eslint . --fix",
+    "publish": "vsce publish --no-dependencies",
+    "typecheck": "tsc --noEmit",
+    "release": "bumpp && pnpm run publish"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.7.0",
+    "@types/node": "^18.18.12",
+    "@types/vscode": "^1.84.2",
+    "@vscode-use/utils": "^0.0.89",
+    "bumpp": "^9.2.0",
+    "eslint": "^8.54.0",
+    "esno": "^0.16.3",
+    "pnpm": "^8.10.5",
+    "rimraf": "^4.4.1",
+    "tsup": "^6.7.0",
+    "typescript": "^5.3.2",
+    "vite": "^4.5.0",
+    "vitest": "^0.29.8",
+    "vsce": "^2.15.0"
+  }
+}
