@@ -1,3 +1,6 @@
 {
-  "symbol-mapping-conversion.mappings": "映射转换表"
+  "symbol-mapping-conversion.mappings": "映射转换表",
+  "symbol-mapping-conversion.isEnable": "是否开启转换",
+  "symbol-mapping-conversion.extLanguage": "排除哪些文件",
+  "symbol-mapping-conversion.toggleStatusBar": "切换底部状态栏"
 }

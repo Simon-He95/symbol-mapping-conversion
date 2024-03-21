@@ -1,16 +1,47 @@
-import { addEventListener, createRange, getConfiguration, getPosition, updateText } from '@vscode-use/utils'
+import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getPosition, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
 import type { Disposable, ExtensionContext } from 'vscode'
 
 export async function activate(context: ExtensionContext) {
   const disposes: Disposable[] = []
-  let mappings = getConfiguration('symbol-mapping-conversion.mappings')
-  const isRun = true
+  let { mappings, isEnable, extLanguage } = getConfig()
+
+  const statusBar = createBottomBar({
+    position: 'right',
+    color: isEnable ? '#bef264' : '#f87171',
+    text: isEnable ? 'symbol-mapping-conversion: ✅' : 'symbol-mapping-conversion: ❌',
+    command: 'symbol-mapping-conversion.toggleStatusBar',
+  })
+
+  statusBar.show()
+
+  const updateStatusBar = () => {
+    statusBar.text = isEnable ? 'symbol-mapping-conversion: ✅' : 'symbol-mapping-conversion: ❌'
+    statusBar.color = isEnable ? '#bef264' : '#f87171'
+  }
+
+  disposes.push(registerCommand('symbol-mapping-conversion.toggleStatusBar', () => {
+    isEnable = !isEnable
+    setConfiguration('symbol-mapping-conversion.isEnable', isEnable, true)
+    updateStatusBar()
+  }))
+
   disposes.push(addEventListener('text-change', (e) => {
-    if (!isRun)
+    if (!isEnable)
       return
+
+    const language = getActiveTextEditorLanguageId()
+
+    if (!language)
+      return
+
+    if (extLanguage.includes(language))
+      return
+
     const changes = e.contentChanges.filter((c: any) => c.text.trim())
+
     if (!changes.length)
       return
+
     const updateLists: any = []
     changes.forEach((c: any) => {
       let text = c.text
@@ -38,7 +69,11 @@ export async function activate(context: ExtensionContext) {
   }))
 
   disposes.push(addEventListener('config-change', () => {
-    mappings = getConfiguration('symbol-mapping-conversion.mappings')
+    const config = getConfig()
+    mappings = config.mappings
+    isEnable = config.isEnable
+    extLanguage = config.extLanguage
+    updateStatusBar()
   }))
 
   context.subscriptions.push(...disposes)
@@ -46,4 +81,15 @@ export async function activate(context: ExtensionContext) {
 
 export function deactivate() {
 
+}
+
+function getConfig() {
+  const mappings = getConfiguration('symbol-mapping-conversion.mappings')
+  const extLanguage = getConfiguration('symbol-mapping-conversion.extLanguage')
+  const isEnable = getConfiguration('symbol-mapping-conversion.isEnable')
+  return {
+    mappings,
+    extLanguage,
+    isEnable,
+  }
 }

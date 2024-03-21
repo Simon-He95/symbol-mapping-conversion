@@ -66,9 +66,25 @@
             "·": "`"
           },
           "description": "%symbol-mapping-conversion.mappings%"
+        },
+        "symbol-mapping-conversion.isEnable": {
+          "type": "boolean",
+          "default": true,
+          "description": "%symbol-mapping-conversion.isEnable%"
+        },
+        "symbol-mapping-conversion.extLanguage": {
+          "type": "array",
+          "default": [],
+          "description": "%symbol-mapping-conversion.extLanguage%"
         }
       }
-    }
+    },
+    "commands": [
+      {
+        "command": "symbol-mapping-conversion.toggleStatusBar",
+        "title": "%symbol-mapping-conversion.toggleStatusBar%"
+      }
+    ]
   },
   "scripts": {
     "dev": "pnpm build --watch",
