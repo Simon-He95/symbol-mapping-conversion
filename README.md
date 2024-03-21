@@ -5,7 +5,7 @@
 
 The plug-in for symbol mapping conversion can customize the configuration conversion and the corresponding symbol mapping, configure the effective file type, and can have a bottom bar status switch and shortcut key to control whether the plug-in is enabled.
 
-## Think
+## 🤔️ Think
 
 - You can use your imagination, for example: I want to automatically convert to 💰 when I enter money, or automatically convert to ❤️ when I enter the heart, or automatically convert to 😊 when I enter laughter, etc.
 
@@ -13,7 +13,7 @@ The plug-in for symbol mapping conversion can customize the configuration conver
 
 - Use your imagination and you can do a lot of interesting things.
 
-## Power
+## 💪 Power
 
 - You can control whether to start the plug-in through the switch in the bottom bar.
 
