@@ -7,16 +7,14 @@ export async function activate(context: ExtensionContext) {
 
   const statusBar = createBottomBar({
     position: 'right',
-    color: isEnable ? '#bef264' : '#f87171',
-    text: `$(symbol-array) Symbol`,
+    text: `$(${isEnable ? 'symbol-array' : 'circle-slash'}) Symbol`,
     command: 'symbol-mapping-conversion.toggleStatusBar',
   })
 
   statusBar.show()
 
   const updateStatusBar = () => {
-    statusBar.text = `$(symbol-array) Symbol`,
-    statusBar.color = isEnable ? '#bef264' : '#f87171'
+    statusBar.text = `$(${isEnable ? 'symbol-array' : 'circle-slash'}) Symbol`
   }
 
   disposes.push(registerCommand('symbol-mapping-conversion.toggleStatusBar', () => {
