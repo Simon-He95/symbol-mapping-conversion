@@ -99,7 +99,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^2.7.0",
     "@types/node": "^18.18.12",
-    "@types/vscode": "^1.84.2",
+    "@types/vscode": "^1.88.0",
     "@vscode-use/utils": "^0.0.91",
     "bumpp": "^9.2.0",
     "eslint": "^8.54.0",
