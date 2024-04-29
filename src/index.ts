@@ -1,4 +1,5 @@
-import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getLineText, getPosition, getSelection, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
+import { nextTick } from 'node:process'
+import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getLineText, getPosition, getSelection, jumpToLine, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
 import type { Disposable, ExtensionContext } from 'vscode'
 
 export async function activate(context: ExtensionContext) {
@@ -71,9 +72,17 @@ export async function activate(context: ExtensionContext) {
         const start = getPosition(c.rangeOffset - offset)
         const end = getPosition(c.rangeOffset + c.text.length)
         const range = createRange(start, end)
-        if (preSelect && /['"{\[`]/.test(text))
+        if (preSelect && /['"{\[`]/.test(text)) {
           text = text + preSelect + (map[text] ?? text)
-
+        }
+        else if (text.includes('$1')) {
+          // 针对需要光标移动到指定位置的场景
+          const offset = text.indexOf('$1')
+          text = text.replace('$1', '')
+          nextTick(() => {
+            jumpToLine([end.line, end.character + offset - 1])
+          })
+        }
         updateLists.push({
           range,
           text,
