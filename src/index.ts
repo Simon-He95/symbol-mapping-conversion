@@ -72,7 +72,7 @@ export async function activate(context: ExtensionContext) {
         const start = getPosition(c.rangeOffset - offset)
         const end = getPosition(c.rangeOffset + c.text.length)
         const range = createRange(start, end)
-        if (preSelect && /['"{\[`]/.test(text)) {
+        if (preSelect && /['"{\[`\(]/.test(text)) {
           text = text + preSelect + (map[text] ?? text)
         }
         else if (text.includes('$1')) {
