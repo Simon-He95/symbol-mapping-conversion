@@ -27,9 +27,11 @@ export async function activate(context: ExtensionContext) {
     setConfiguration('symbol-mapping-conversion.isEnable', isEnable, true)
     updateStatusBar()
   }))
-  let preSelect: null | string = null
+  let preSelect: any = null
+  disposes.push(addEventListener('selection-change', () => {
+    preSelect = getSelection()
+  }))
   disposes.push(addEventListener('text-change', (e) => {
-    const { selectedTextArray } = getSelection()!
     if (e.reason === 1) // 撤销时不再干预
       return
 
@@ -46,10 +48,8 @@ export async function activate(context: ExtensionContext) {
 
     const changes = e.contentChanges.filter((c: any) => c.text.trim())
 
-    if (!changes.length) {
-      preSelect = selectedTextArray[0] || null
+    if (!changes.length)
       return
-    }
 
     const updateLists: any = []
     changes.forEach((c: any) => {
@@ -72,8 +72,18 @@ export async function activate(context: ExtensionContext) {
         const start = getPosition(c.rangeOffset - offset)
         const end = getPosition(c.rangeOffset + c.text.length)
         const range = createRange(start, end)
-        if (preSelect && /['"{\[`\(]/.test(text)) {
-          text = text + preSelect + (map[text] ?? text)
+        if (preSelect && ((preSelect.line === c.range.end.line && preSelect.character === c.range.end.character) || (preSelect.line === c.range.start.line && preSelect.character === c.range.start.character)) && /['"{\[`\(]/.test(text)) {
+          const selectText = preSelect.selectedTextArray[0]
+          if (text.includes('$1')) {
+            // 针对需要光标移动到指定位置的场景
+            const offset = text.indexOf('$1')
+            const [_pre, _end] = text.split('$1')
+            text = _pre + selectText + _end
+            nextTick(() => {
+              jumpToLine([end.line, end.character + offset - 1 + selectText.length])
+            })
+          }
+          else { text = text + selectText + (map[text] ?? text) }
         }
         else if (text.includes('$1')) {
           // 针对需要光标移动到指定位置的场景
