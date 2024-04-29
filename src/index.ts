@@ -1,8 +1,12 @@
-import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getLineText, getPosition, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
+import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getLineText, getPosition, getSelection, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
 import type { Disposable, ExtensionContext } from 'vscode'
 
 export async function activate(context: ExtensionContext) {
   const disposes: Disposable[] = []
+  const map: Record<string, string> = {
+    '{': '}',
+    '[': ']',
+  }
   let { mappings, isEnable, extLanguage } = getConfig()
 
   const statusBar = createBottomBar({
@@ -22,8 +26,9 @@ export async function activate(context: ExtensionContext) {
     setConfiguration('symbol-mapping-conversion.isEnable', isEnable, true)
     updateStatusBar()
   }))
-
+  let preSelect: null | string = null
   disposes.push(addEventListener('text-change', (e) => {
+    const { selectedTextArray } = getSelection()!
     if (e.reason === 1) // 撤销时不再干预
       return
 
@@ -40,8 +45,10 @@ export async function activate(context: ExtensionContext) {
 
     const changes = e.contentChanges.filter((c: any) => c.text.trim())
 
-    if (!changes.length)
+    if (!changes.length) {
+      preSelect = selectedTextArray[0] || null
       return
+    }
 
     const updateLists: any = []
     changes.forEach((c: any) => {
@@ -64,6 +71,9 @@ export async function activate(context: ExtensionContext) {
         const start = getPosition(c.rangeOffset - offset)
         const end = getPosition(c.rangeOffset + c.text.length)
         const range = createRange(start, end)
+        if (preSelect && /['"{\[`]/.test(text))
+          text = text + preSelect + (map[text] ?? text)
+
         updateLists.push({
           range,
           text,
