@@ -64,6 +64,8 @@ export async function activate(context: ExtensionContext) {
           const start = c.range.start.character - offset
           if (start < 0)
             return
+          if (lineText.slice(start, c.range.start.character + text.length) !== k)
+            return
           text = lineText.slice(start, c.range.start.character + text.length)
         }
         text = text.replaceAll(k, v)
