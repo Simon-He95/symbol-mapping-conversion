@@ -4,52 +4,49 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-importers:
-
-  .:
-    devDependencies:
-      '@antfu/eslint-config':
-        specifier: ^2.7.0
-        version: 2.9.0(@vue/compiler-sfc@3.4.21)(eslint@8.54.0)(typescript@5.3.2)(vitest@0.29.8)
-      '@types/node':
-        specifier: ^18.18.12
-        version: 18.19.26
-      '@types/vscode':
-        specifier: ^1.88.0
-        version: 1.88.0
-      '@vscode-use/utils':
-        specifier: ^0.0.93
-        version: 0.0.93
-      bumpp:
-        specifier: ^9.2.0
-        version: 9.2.0
-      eslint:
-        specifier: ^8.54.0
-        version: 8.54.0
-      esno:
-        specifier: ^0.16.3
-        version: 0.16.3
-      pnpm:
-        specifier: ^8.10.5
-        version: 8.10.5
-      rimraf:
-        specifier: ^4.4.1
-        version: 4.4.1
-      tsup:
-        specifier: ^6.7.0
-        version: 6.7.0(typescript@5.3.2)
-      typescript:
-        specifier: ^5.3.2
-        version: 5.3.2
-      vite:
-        specifier: ^4.5.0
-        version: 4.5.2(@types/node@18.19.26)
-      vitest:
-        specifier: ^0.29.8
-        version: 0.29.8
-      vsce:
-        specifier: ^2.15.0
-        version: 2.15.0
+devDependencies:
+  '@antfu/eslint-config':
+    specifier: ^2.7.0
+    version: 2.9.0(@vue/compiler-sfc@3.4.21)(eslint@8.54.0)(typescript@5.3.2)(vitest@0.29.8)
+  '@types/node':
+    specifier: ^18.18.12
+    version: 18.19.26
+  '@types/vscode':
+    specifier: ^1.88.0
+    version: 1.88.0
+  '@vscode-use/utils':
+    specifier: ^0.0.93
+    version: 0.0.93
+  bumpp:
+    specifier: ^9.2.0
+    version: 9.2.0
+  eslint:
+    specifier: ^8.54.0
+    version: 8.54.0
+  esno:
+    specifier: ^0.16.3
+    version: 0.16.3
+  pnpm:
+    specifier: ^8.10.5
+    version: 8.10.5
+  rimraf:
+    specifier: ^4.4.1
+    version: 4.4.1
+  tsup:
+    specifier: ^6.7.0
+    version: 6.7.0(typescript@5.3.2)
+  typescript:
+    specifier: ^5.3.2
+    version: 5.3.2
+  vite:
+    specifier: ^4.5.0
+    version: 4.5.2(@types/node@18.19.26)
+  vitest:
+    specifier: ^0.29.8
+    version: 0.29.8
+  vsce:
+    specifier: ^2.15.0
+    version: 2.15.0
 
 packages:
 
