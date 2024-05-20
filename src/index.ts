@@ -1,5 +1,5 @@
 import { nextTick } from 'node:process'
-import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getLineText, getPosition, getSelection, jumpToLine, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
+import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getCopyText, getLineText, getPosition, getSelection, jumpToLine, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
 import type { Disposable, ExtensionContext } from 'vscode'
 
 export async function activate(context: ExtensionContext) {
@@ -31,7 +31,7 @@ export async function activate(context: ExtensionContext) {
   disposes.push(addEventListener('selection-change', () => {
     preSelect = getSelection()
   }))
-  disposes.push(addEventListener('text-change', (e) => {
+  disposes.push(addEventListener('text-change', async (e) => {
     if (e.reason === 1) // 撤销时不再干预
       return
 
@@ -52,11 +52,16 @@ export async function activate(context: ExtensionContext) {
       return
 
     const updateLists: any = []
-    changes.forEach((c: any) => {
+    for (const c of changes) {
       let text = c.text
       let offset = 0
+      // 不干预复制粘贴的情况，只考虑输入
+      const copyText = await getCopyText()
+      if (copyText === text)
+        return
       Object.keys(mappings).forEach((k) => {
         const v = mappings[k]
+        const reg = new RegExp(k, 'gm')
         if (text.length < k.length && k.endsWith(text)) {
           // 支持少于匹配项，往前贪婪获取字符串
           offset = k.length - text.length
@@ -68,7 +73,7 @@ export async function activate(context: ExtensionContext) {
             return
           text = lineText.slice(start, c.range.start.character + text.length)
         }
-        text = text.replaceAll(k, v)
+        text = text.replace(reg, v)
       })
       if (text !== c.text) {
         const start = getPosition(c.rangeOffset - offset)
@@ -100,7 +105,8 @@ export async function activate(context: ExtensionContext) {
           text,
         })
       }
-    })
+    }
+
     if (!updateLists.length)
       return
     updateText((edit) => {
