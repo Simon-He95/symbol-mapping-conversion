@@ -2,5 +2,6 @@
   "symbol-mapping-conversion.mappings": "Mapping conversion table",
   "symbol-mapping-conversion.isEnable": "Whether to turn on conversion",
   "symbol-mapping-conversion.extLanguage": "Which documents are excluded?",
-  "symbol-mapping-conversion.toggleStatusBar": "Switch the symbol-mapping-conversion bottom status bar"
+  "symbol-mapping-conversion.toggleStatusBar": "Switch the symbol-mapping-conversion bottom status bar",
+  "symbol-mapping-conversion.copyMap": "Whether to also convert copied and pasted content"
 }

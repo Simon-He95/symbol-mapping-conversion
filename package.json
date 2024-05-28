@@ -75,6 +75,11 @@
           "type": "array",
           "default": [],
           "description": "%symbol-mapping-conversion.extLanguage%"
+        },
+        "symbol-mapping-conversion.copyMap": {
+          "type": "boolean",
+          "default": false,
+          "description": "%symbol-mapping-conversion.copyMap%"
         }
       }
     },

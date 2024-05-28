@@ -8,7 +8,7 @@ export async function activate(context: ExtensionContext) {
     '{': '}',
     '[': ']',
   }
-  let { mappings, isEnable, extLanguage } = getConfig()
+  let { mappings, isEnable, extLanguage, copyMap } = getConfig()
 
   const statusBar = createBottomBar({
     position: 'right',
@@ -55,10 +55,13 @@ export async function activate(context: ExtensionContext) {
     for (const c of changes) {
       let text = c.text
       let offset = 0
-      // 不干预复制粘贴的情况，只考虑输入
-      const copyText = await getCopyText()
-      if (copyText === text)
-        return
+      if (!copyMap) {
+        // 不干预复制粘贴的情况，只考虑输入
+        const copyText = await getCopyText()
+        if (copyText === text)
+          return
+      }
+
       Object.keys(mappings).forEach((k) => {
         const v = mappings[k]
         const reg = new RegExp(k, 'gm')
@@ -121,6 +124,7 @@ export async function activate(context: ExtensionContext) {
     mappings = config.mappings
     isEnable = config.isEnable
     extLanguage = config.extLanguage
+    copyMap = config.copyMap
     updateStatusBar()
   }))
 
@@ -135,9 +139,11 @@ function getConfig() {
   const mappings = getConfiguration('symbol-mapping-conversion.mappings')
   const extLanguage = getConfiguration('symbol-mapping-conversion.extLanguage')
   const isEnable = getConfiguration('symbol-mapping-conversion.isEnable')
+  const copyMap = getConfiguration('symbol-mapping-conversion.copyMap')
   return {
     mappings,
     extLanguage,
     isEnable,
+    copyMap,
   }
 }
