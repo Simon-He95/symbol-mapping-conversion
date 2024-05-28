@@ -2,7 +2,7 @@
   "publisher": "simonhe",
   "name": "symbol-mapping-conversion",
   "displayName": "symbol-mapping-conversion",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "packageManager": "pnpm@8.15.8",
   "description": "symbol-mapping-conversion",
   "author": "Simon He <https://github.com/Simon-He95>",
