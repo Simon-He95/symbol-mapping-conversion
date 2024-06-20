@@ -2,6 +2,30 @@ import { nextTick } from 'node:process'
 import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getCopyText, getLineText, getPosition, getSelection, jumpToLine, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
 import type { Disposable, ExtensionContext } from 'vscode'
 
+const base = {
+  '【': '[',
+  '】': ']',
+  '（': '(',
+  '）': ')',
+  '《': '<',
+  '》': '>',
+  '「': '{',
+  '」': '}',
+  '¥': '$',
+  '……': '^',
+  '。': '.',
+  '，': ',',
+  '：': ':',
+  '；': ';',
+  '？': '?',
+  '！': '!',
+  '“': '"',
+  '”': '"',
+  '‘': '\'',
+  '’': '\'',
+  '～': '~',
+  '·': '`',
+}
 export async function activate(context: ExtensionContext) {
   const disposes: Disposable[] = []
   const map: Record<string, string> = {
@@ -51,6 +75,9 @@ export async function activate(context: ExtensionContext) {
     if (!changes.length)
       return
 
+    // 获取对应语言的配置
+    const _base = Object.assign(base, mappings.base)
+    const languageMappings = Object.assign(_base, mappings[language])
     const updateLists: any = []
     for (const c of changes) {
       let text = c.text
@@ -62,8 +89,8 @@ export async function activate(context: ExtensionContext) {
           return
       }
 
-      Object.keys(mappings).forEach((k) => {
-        const v = mappings[k]
+      Object.keys(languageMappings).forEach((k) => {
+        const v = languageMappings[k]
         const reg = new RegExp(k, 'gm')
         if (text.length < k.length && k.endsWith(text)) {
           // 支持少于匹配项，往前贪婪获取字符串
@@ -112,6 +139,7 @@ export async function activate(context: ExtensionContext) {
 
     if (!updateLists.length)
       return
+
     updateText((edit) => {
       updateLists.forEach((list: any) => {
         edit.replace(list.range, list.text)

@@ -40,30 +40,7 @@
       "properties": {
         "symbol-mapping-conversion.mappings": {
           "type": "object",
-          "default": {
-            "【": "[",
-            "】": "]",
-            "（": "(",
-            "）": ")",
-            "《": "<",
-            "》": ">",
-            "「": "{",
-            "」": "}",
-            "¥": "$",
-            "……": "^",
-            "。": ".",
-            "，": ",",
-            "：": ":",
-            "；": ";",
-            "？": "?",
-            "！": "!",
-            "“": "\"",
-            "”": "\"",
-            "‘": "'",
-            "’": "'",
-            "～": "~",
-            "·": "`"
-          },
+          "default": {},
           "description": "%symbol-mapping-conversion.mappings%"
         },
         "symbol-mapping-conversion.isEnable": {
