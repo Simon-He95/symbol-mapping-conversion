@@ -67,7 +67,7 @@ export async function activate(context: ExtensionContext) {
     const uri = e.document.uri
     const currentFileUrl = getCurrentFileUrl()
 
-    if (uri !== currentFileUrl)
+    if (uri.fsPath !== currentFileUrl)
       return
 
     const language = getActiveTextEditorLanguageId()
