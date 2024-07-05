@@ -1,5 +1,5 @@
 import { nextTick } from 'node:process'
-import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getCopyText, getLineText, getPosition, getSelection, jumpToLine, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
+import { addEventListener, createBottomBar, createRange, getActiveTextEditorLanguageId, getConfiguration, getCopyText, getCurrentFileUrl, getLineText, getPosition, getSelection, jumpToLine, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
 import type { Disposable, ExtensionContext } from 'vscode'
 
 const base = {
@@ -51,15 +51,23 @@ export async function activate(context: ExtensionContext) {
     setConfiguration('symbol-mapping-conversion.isEnable', isEnable, true)
     updateStatusBar()
   }))
+
   let preSelect: any = null
   disposes.push(addEventListener('selection-change', () => {
     preSelect = getSelection()
   }))
+
   disposes.push(addEventListener('text-change', async (e) => {
     if (e.reason === 1) // 撤销时不再干预
       return
 
     if (!isEnable)
+      return
+
+    const uri = e.document.uri
+    const currentFileUrl = getCurrentFileUrl()
+
+    if (uri !== currentFileUrl)
       return
 
     const language = getActiveTextEditorLanguageId()
@@ -74,7 +82,6 @@ export async function activate(context: ExtensionContext) {
 
     if (!changes.length)
       return
-
     // 获取对应语言的配置
     const _base = Object.assign(base, mappings.base)
     const languageMappings = Object.assign(_base, mappings[language])
