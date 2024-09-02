@@ -53,14 +53,14 @@ export async function activate(context: ExtensionContext) {
   }))
 
   let preSelect: any = null
-  disposes.push(addEventListener('selection-change', () => {
-    preSelect = getSelection()
+  disposes.push(addEventListener('selection-change', (e) => {
+    if (e.kind && e.kind !== 1)
+      preSelect = getSelection()
   }))
 
   disposes.push(addEventListener('text-change', async (e) => {
     if (e.reason === 1) // 撤销时不再干预
       return
-
     if (!isEnable)
       return
 
