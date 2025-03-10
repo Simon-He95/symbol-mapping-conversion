@@ -18,8 +18,8 @@ importers:
         specifier: ^1.92.0
         version: 1.93.0
       '@vscode-use/utils':
-        specifier: ^0.0.93
-        version: 0.0.93
+        specifier: ^0.1.0
+        version: 0.1.29
       bumpp:
         specifier: ^9.5.2
         version: 9.5.2
@@ -881,9 +881,9 @@ packages:
   '@vitest/utils@2.1.1':
     resolution: {integrity: sha512-Y6Q9TsI+qJ2CC0ZKj6VBb+T8UPz593N113nnUykqwANqhgf3QkZeHFlusgKLTqrnVHbj/XDKZcDHol+dxVT+rQ==}
 
-  '@vscode-use/utils@0.0.93':
-    resolution: {integrity: sha512-DBkjl6w5mn5rzkFiGTe+xxX57lTnMB8Mjq1e8f49IM6eqEjDZxprC5QVtZWhoUVfvrUTr8en5JJjFEeqr3uUqA==}
-    engines: {vscode: ^1.77.0}
+  '@vscode-use/utils@0.1.29':
+    resolution: {integrity: sha512-FtjQC8c/pv537iJZUv9A4woyPrWfpilkSHmkMmhNpBzEqAqKIwBBKu2IRHT16J/Kcp8dHAJNoJkhq/J1+DndLA==}
+    engines: {vscode: ^1.92.0}
 
   '@vue/compiler-core@3.5.2':
     resolution: {integrity: sha512-1aP7FL2GkqfcskHWGg3lfWQpJnrmewKc+rNJ/hq9WNaAw4BEyJ5QbNChnqmbw+tJ409zdy1XWmUeXXMrCKJcQQ==}
@@ -3454,7 +3454,7 @@ snapshots:
       loupe: 3.1.1
       tinyrainbow: 1.2.0
 
-  '@vscode-use/utils@0.0.93': {}
+  '@vscode-use/utils@0.1.29': {}
 
   '@vue/compiler-core@3.5.2':
     dependencies:
