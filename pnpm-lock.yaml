@@ -31,7 +31,7 @@ importers:
         version: 4.8.0
       pnpm:
         specifier: ^9.0.0
-        version: 9.11.0
+        version: 9.15.9
       tsup:
         specifier: ^8.2.4
         version: 8.2.4(jiti@1.21.6)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.5.4)(yaml@2.5.1)
@@ -119,13 +119,13 @@ packages:
     resolution: {integrity: sha512-EStJpq4OuY8xYfhGVXngigBJRWxftKX9ksiGDnmlY3o7B/V7KIAc9X4oiK87uPJSc/vs5L869bem5fhZa8caZw==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/parser@7.26.9':
-    resolution: {integrity: sha512-81NWa1njQblgZbQHxWHpxxCzNsa3ZwvFqpUg7P+NNUU6f3UU2jBEg4OlF/J6rl8+PQGh1q6/zWScd001YwcA5A==}
+  '@babel/parser@7.26.10':
+    resolution: {integrity: sha512-6aQR2zGE/QFi8JpDLjUZEPYOs7+mhKXm86VaKFiLP35JQwQb6bwUE+XbvkH0EptsYhbNBSUGaUBLKqxH1xSgsA==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  '@babel/types@7.26.9':
-    resolution: {integrity: sha512-Y3IR1cRnOxOCDvMmNiym7XpXQ93iGDDPHx+Zj+NM+rg0fBaShfQLkg+hKPaZCEvg5N/LeCo4+Rj/i3FuJsIQaw==}
+  '@babel/types@7.26.10':
+    resolution: {integrity: sha512-emqcG3vHrpxUKTrxcblR36dcrcoRDvKmnL/dCL6ZsHaShW80qxCAcNhzQZrpeM765VzEos+xOi4s+r4IXzTwdQ==}
     engines: {node: '>=6.9.0'}
 
   '@clack/core@0.3.4':
@@ -2189,8 +2189,8 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
 
-  pnpm@9.11.0:
-    resolution: {integrity: sha512-CiA/+u1aP2MkLNBkyPtYkjZsED4ygHkxj3gGLyTqjJ1QvGpHqjVnyr79gk0XDnj6J0XtHxaxMuFkNhRrdojxmw==}
+  pnpm@9.15.9:
+    resolution: {integrity: sha512-aARhQYk8ZvrQHAeSMRKOmvuJ74fiaR1p5NQO7iKJiClf1GghgbrlW1hBjDolO95lpQXsfF+UA+zlzDzTfc8lMQ==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -2899,11 +2899,11 @@ snapshots:
       js-tokens: 4.0.0
       picocolors: 1.1.0
 
-  '@babel/parser@7.26.9':
+  '@babel/parser@7.26.10':
     dependencies:
-      '@babel/types': 7.26.9
+      '@babel/types': 7.26.10
 
-  '@babel/types@7.26.9':
+  '@babel/types@7.26.10':
     dependencies:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
@@ -3467,7 +3467,7 @@ snapshots:
 
   '@vue/compiler-core@3.5.2':
     dependencies:
-      '@babel/parser': 7.26.9
+      '@babel/parser': 7.26.10
       '@vue/shared': 3.5.2
       entities: 4.5.0
       estree-walker: 2.0.2
@@ -3480,7 +3480,7 @@ snapshots:
 
   '@vue/compiler-sfc@3.5.2':
     dependencies:
-      '@babel/parser': 7.26.9
+      '@babel/parser': 7.26.10
       '@vue/compiler-core': 3.5.2
       '@vue/compiler-dom': 3.5.2
       '@vue/compiler-ssr': 3.5.2
@@ -4907,7 +4907,7 @@ snapshots:
 
   pluralize@8.0.0: {}
 
-  pnpm@9.11.0: {}
+  pnpm@9.15.9: {}
 
   postcss-load-config@6.0.1(jiti@1.21.6)(postcss@8.5.3)(tsx@4.19.3)(yaml@2.5.1):
     dependencies:
