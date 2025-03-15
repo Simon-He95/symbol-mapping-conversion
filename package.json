@@ -83,7 +83,7 @@
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.92.0",
     "@vscode-use/utils": "^0.0.93",
-    "bumpp": "^9.5.2",
+    "bumpp": "^10.0.0",
     "eslint": "^9.0.0",
     "esno": "^4.0.0",
     "pnpm": "^9.0.0",
