@@ -31,7 +31,7 @@ importers:
         version: 4.8.0
       pnpm:
         specifier: ^9.0.0
-        version: 9.11.0
+        version: 9.15.9
       tsup:
         specifier: ^8.2.4
         version: 8.4.0(jiti@1.21.6)(postcss@8.5.5)(tsx@4.19.3)(typescript@5.5.4)(yaml@2.5.1)
@@ -2199,8 +2199,8 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
 
-  pnpm@9.11.0:
-    resolution: {integrity: sha512-CiA/+u1aP2MkLNBkyPtYkjZsED4ygHkxj3gGLyTqjJ1QvGpHqjVnyr79gk0XDnj6J0XtHxaxMuFkNhRrdojxmw==}
+  pnpm@9.15.9:
+    resolution: {integrity: sha512-aARhQYk8ZvrQHAeSMRKOmvuJ74fiaR1p5NQO7iKJiClf1GghgbrlW1hBjDolO95lpQXsfF+UA+zlzDzTfc8lMQ==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -4891,7 +4891,7 @@ snapshots:
 
   pluralize@8.0.0: {}
 
-  pnpm@9.11.0: {}
+  pnpm@9.15.9: {}
 
   postcss-load-config@6.0.1(jiti@1.21.6)(postcss@8.5.5)(tsx@4.19.3)(yaml@2.5.1):
     dependencies:
