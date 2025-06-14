@@ -24,11 +24,8 @@
   ],
   "main": "./dist/index.js",
   "icon": "icon.png",
-  "files": [
-    "dist"
-  ],
   "engines": {
-    "vscode": "^1.92.0"
+    "vscode": "^1.101.0"
   },
   "activationEvents": [
     "onStartupFinished"
@@ -80,16 +77,14 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.3",
-    "@types/node": "^22.0.0",
-    "@types/vscode": "^1.92.0",
-    "@vscode-use/utils": "^0.0.93",
-    "bumpp": "^9.5.2",
-    "eslint": "^9.0.0",
-    "esno": "^4.0.0",
-    "pnpm": "^9.0.0",
-    "tsup": "^8.2.4",
-    "typescript": "^5.5.4",
-    "vitest": "^2.0.0",
-    "vsce": "^2.15.0"
+    "@types/node": "^22.15.31",
+    "@types/vscode": "^1.101.0",
+    "@vscode-use/utils": "^0.1.58",
+    "@vscode/vsce": "^3.5.0",
+    "bumpp": "^9.11.1",
+    "eslint": "^9.29.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.3"
   }
 }
