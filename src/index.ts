@@ -115,8 +115,8 @@ export async function activate(context: ExtensionContext) {
       if (text !== c.text) {
         const start = getPosition(c.rangeOffset - offset)
         const end = getPosition(c.rangeOffset + c.text.length)
-        const range = createRange(start, end)
-        if (preSelect && ((preSelect.line === c.range.end.line && preSelect.character === c.range.end.character) || (preSelect.line === c.range.start.line && preSelect.character === c.range.start.character)) && /['"{\[`\(]/.test(text)) {
+        const range = createRange(start.position, end.position)
+        if (preSelect && ((preSelect.line === c.range.end.line && preSelect.character === c.range.end.character) || (preSelect.line === c.range.start.line && preSelect.character === c.range.start.character)) && /['"{[`(]/.test(text)) {
           const selectText = preSelect.selectedTextArray[0]
           if (text.includes('$1')) {
             // 针对需要光标移动到指定位置的场景
