@@ -1,4 +1,4 @@
-import type { Disposable, ExtensionContext, TextDocumentContentChangeEvent } from 'vscode'
+import type { Disposable, ExtensionContext, Range, TextDocumentContentChangeEvent } from 'vscode'
 import { nextTick } from 'node:process'
 import { addEventListener, createBottomBar, createRange, getConfiguration, getCopyText, getLineText, getPosition, getSelection, jumpToLine, registerCommand, setConfiguration, updateText } from '@vscode-use/utils'
 import { commands, window } from 'vscode'
@@ -27,6 +27,7 @@ interface AutoActionConfig {
 interface NotificationConfig {
   showSkipToasts: boolean
   detailedTooltip: boolean
+  tooltipDurationMs?: number
 }
 
 interface AutoRemediationConfig {
@@ -84,6 +85,7 @@ const defaultAutoAction: AutoActionConfig = {
 const defaultNotifications: NotificationConfig = {
   showSkipToasts: false,
   detailedTooltip: true,
+  tooltipDurationMs: 4000,
 }
 
 const defaultAutoRemediation: AutoRemediationConfig = {
@@ -292,7 +294,7 @@ export async function activate(context: ExtensionContext) {
   }
 
   if (isBulkDetectionPaused() && bulkDetectionResumeAt !== Number.POSITIVE_INFINITY) {
-    const remaining = bulkDetectionResumeAt - Date.now()
+    const remaining = (bulkDetectionResumeAt as number) - Date.now()
     if (remaining > 0) {
       bulkDetectionPauseTimer = setTimeout(() => {
         bulkDetectionPauseTimer = null
@@ -311,10 +313,11 @@ export async function activate(context: ExtensionContext) {
       tooltipResetTimer = null
     }
     statusBar.tooltip = message
+    const duration = notificationConfig.tooltipDurationMs ?? 4000
     tooltipResetTimer = setTimeout(() => {
       tooltipResetTimer = null
       updateBaseTooltip()
-    }, 4000)
+    }, duration)
   }
 
   const toggleExtension = () => {
@@ -477,10 +480,27 @@ export async function activate(context: ExtensionContext) {
     await showSkipHistory()
   }))
 
-  let preSelect: any = null
+  interface PreSelect {
+    line: number
+    character: number
+    selectedTextArray: string[]
+  }
+
+  let preSelect: PreSelect | null = null
   disposes.push(addEventListener('selection-change', (e) => {
-    if (e.kind && e.kind !== 1)
-      preSelect = getSelection()
+    if (e.kind && e.kind !== 1) {
+      const sel = getSelection()
+      if (sel) {
+        preSelect = {
+          line: sel.line,
+          character: sel.character,
+          selectedTextArray: sel.selectedTextArray,
+        }
+      }
+      else {
+        preSelect = null
+      }
+    }
   }))
 
   disposes.push(addEventListener('text-change', async (e) => {
@@ -516,7 +536,7 @@ export async function activate(context: ExtensionContext) {
       }
     }
 
-    const filteredChanges = changes.filter((c: any) => c.text.trim())
+    const filteredChanges = changes.filter(c => c.text.trim()) as TextDocumentContentChangeEvent[]
     if (!filteredChanges.length)
       return
 
@@ -590,7 +610,7 @@ export async function activate(context: ExtensionContext) {
   }
 
   // 改进的文本处理函数
-  async function processTextChange(changes: any[], language: string) {
+  async function processTextChange(changes: TextDocumentContentChangeEvent[], language: string) {
     if (isProcessing)
       return
 
@@ -599,7 +619,7 @@ export async function activate(context: ExtensionContext) {
     try {
       // 获取对应语言的配置
       const languageEntries = getLanguageEntries(language)
-      const updateLists: any = []
+      const updateLists: Array<{ range: Range, text: string }> = []
       let clipboardText: string | undefined
 
       if (!copyMap) {
@@ -639,13 +659,13 @@ export async function activate(context: ExtensionContext) {
           const end = getPosition(c.rangeOffset + c.text.length)
           const range = createRange(start.position, end.position)
 
-          const matchesSelectionBoundary = preSelect
+          const matchesSelectionBoundary = preSelect !== null
             && ((preSelect.line === c.range.end.line && preSelect.character === c.range.end.character)
               || (preSelect.line === c.range.start.line && preSelect.character === c.range.start.character))
           const hasPairMapping = pairMap[text] !== undefined
             || text.includes('$1')
 
-          if (matchesSelectionBoundary && hasPairMapping) {
+          if (matchesSelectionBoundary && hasPairMapping && preSelect) {
             const selectText = preSelect.selectedTextArray[0]
             if (text.includes('$1')) {
               // 针对需要光标移动到指定位置的场景
@@ -677,7 +697,7 @@ export async function activate(context: ExtensionContext) {
 
       if (updateLists.length > 0) {
         updateText((edit) => {
-          updateLists.forEach((list: any) => {
+          updateLists.forEach((list) => {
             edit.replace(list.range, list.text)
           })
         })
@@ -891,6 +911,48 @@ export async function activate(context: ExtensionContext) {
     }
     else {
       window.showInformationMessage(pick.detail || pick.value)
+    }
+  }
+
+  // Show recent skip history (hoisted function)
+  async function showSkipHistory() {
+    const entries = Object.entries(bulkStats)
+    if (!entries.length && !lastBulkInfo) {
+      window.showInformationMessage('No skip history yet.')
+      return
+    }
+
+    const items: Array<{ label: string, description?: string, detail?: string, value: string }> = []
+    if (lastBulkInfo) {
+      items.push({
+        label: `Last skipped: ${lastBulkInfo.languageId}`,
+        description: `[${lastBulkInfo.timestamp}] ${lastBulkInfo.reason}`,
+        value: 'last',
+      })
+    }
+
+    const sorted = entries.sort((a, b) => (b[1].count || 0) - (a[1].count || 0))
+    for (const [reason, stat] of sorted.slice(0, 20)) {
+      items.push({
+        label: `${reason}`,
+        description: `Triggered ${stat.count}× (last ${stat.lastLanguage} @ ${stat.lastTimestamp})`,
+        value: reason,
+      })
+    }
+
+    const pick = await window.showQuickPick(items, {
+      placeHolder: 'Skip history',
+      ignoreFocusOut: true,
+    })
+    if (!pick)
+      return
+    if (pick.value === 'last' && lastBulkInfo) {
+      window.showInformationMessage(`Last skipped change (${lastBulkInfo.languageId}): ${lastBulkInfo.reason}`)
+      return
+    }
+    const stat = bulkStats[pick.value]
+    if (stat) {
+      window.showInformationMessage(`Reason: ${pick.value} — ${stat.count}× (last ${stat.lastLanguage} @ ${stat.lastTimestamp})`)
     }
   }
 
@@ -1191,6 +1253,7 @@ function getConfig() {
   const autoPause = getConfiguration('symbol-mapping-conversion.autoPause') as AutoPauseConfig | undefined
   const autoActionOnSkip = getConfiguration('symbol-mapping-conversion.autoActionOnSkip') as AutoActionConfig | undefined
   const notifications = getConfiguration('symbol-mapping-conversion.notifications') as NotificationConfig | undefined
+  const autoRemediation = getConfiguration('symbol-mapping-conversion.autoRemediation') as AutoRemediationConfig | undefined
   return {
     mappings: mappings ?? {},
     extLanguage: extLanguage ?? [],
@@ -1202,6 +1265,7 @@ function getConfig() {
     autoPause: autoPause ?? defaultAutoPause,
     autoActionOnSkip: autoActionOnSkip ?? defaultAutoAction,
     notifications: notifications ?? defaultNotifications,
+    autoRemediation: autoRemediation ?? defaultAutoRemediation,
   }
 }
 

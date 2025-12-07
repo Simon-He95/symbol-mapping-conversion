@@ -197,6 +197,11 @@
               "type": "boolean",
               "default": true,
               "description": "%symbol-mapping-conversion.notifications.detailedTooltip%"
+            },
+            "tooltipDurationMs": {
+              "type": "number",
+              "default": 4000,
+              "description": "%symbol-mapping-conversion.notifications.tooltipDurationMs%"
             }
           }
         },
