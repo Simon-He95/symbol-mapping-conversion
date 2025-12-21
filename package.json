@@ -3,7 +3,7 @@
   "name": "symbol-mapping-conversion",
   "displayName": "symbol-mapping-conversion",
   "version": "0.0.16",
-  "packageManager": "pnpm@10.20.0",
+  "packageManager": "pnpm@10.26.1",
   "description": "symbol-mapping-conversion",
   "author": "Simon He <https://github.com/Simon-He95>",
   "license": "MIT",
